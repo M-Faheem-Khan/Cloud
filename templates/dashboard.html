@@ -67,7 +67,7 @@
 
 	<script>
 		// setting url
-		let url = "http://192.168.0.101:5000/fetchFiles/" + getCookie("token");
+		let url = "http://localhost:5000/fetchFiles/" + getCookie("token");
 		// creating http object for requests
 		let http = new XMLHttpRequest();
 
@@ -82,7 +82,7 @@
 		http.send();
 		
 		// Function to populate Table with data
-		function popultateTable(data){
+		function populateTable(data){
 			let output = ""
 			for (let i=0; i<data.files.length; i++){
 				output += "<tr><td>" + data.files[i].name + "</td><td>" + formatBytes(parseInt(data.files[i].size)) + "<td><td>" + data.files[i].dateUploaded + "</td></tr>" 

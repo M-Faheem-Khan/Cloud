@@ -69,7 +69,7 @@ def upload_file():
         f.save(os.path.join(app.config['UPLOAD_FOLDER'], fname))
         # adding filename to the list
         DatabaseHelper().addFileToList(fname, token)
-        return 'file uploaded successfully'
+        return make_response(redirect("http://localhost:5000/dashboard"))
 
 # showing the dashboard page page
 @app.route("/dashboard", methods=["GET"])

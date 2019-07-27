@@ -1,5 +1,6 @@
 # Database Helper 
 # Performs all database related function
+import os
 import uuid
 import json
 import pymongo
@@ -43,7 +44,7 @@ class DatabaseHelper(object):
         client = pymongo.MongoClient("mongodb://localhost:27017/")
         database = client["cloud"]
         collection = database["users"]
-        collection.update_one({"token": token}, {"$addToSet": {"files": {"name": fname, "dateUploaded": datetime.now(), "size": os.path.getsize(os.getcwd()+"\\uploads\\"+fname)}}})
+        collection.update_one({"token": token}, {"$addToSet": {"files": {"name": fname, "dateUploaded": str(datetime.today().replace(microsecond=0)), "size": os.path.getsize(os.getcwd()+"\\uploads\\"+fname)}}})
     
     def fetchAllFiles(self, token):
         client = pymongo.MongoClient("mongodb://localhost:27017/")
