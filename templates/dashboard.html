@@ -50,6 +50,8 @@
 	</header>
 	<!--Main Navigation-->
 	<!-- Show a list of previous uploaded files -->
+		<!-- Show a list of previous uploaded files -->
+	</div>
 
 	<!-- Footer -->
 	<footer class="page-footer fixed-bottom font-small primary-color-dark">
@@ -62,6 +64,51 @@
 
 	</footer>
 	<!-- Footer -->
-	<!-- <div>Icons made by <a href="https://www.flaticon.com/authors/smashicons" title="Smashicons">Smashicons</a> from <a href="https://www.flaticon.com/"                 title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/"                 title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div> -->
+
+	<script>
+		// setting url
+		let url = "http://192.168.0.101:5000/fetchFiles/" + getCookie("token");
+		// creating http object for requests
+		let http = new XMLHttpRequest();
+
+		http.onreadystatechange = function() {
+			if (this.readyState == 4 && this.status == 200) {
+				document.getElementById("spinner").style.display = "hidden";
+				var data = JSON.parse(this.responseText);
+				populateTable(data);
+			}
+		};
+		http.open("GET", url, true);
+		http.send();
+		
+		// Function to populate Table with data
+		function popultateTable(data){
+			let output = ""
+			for (let i=0; i<data.files.length; i++){
+				output += "<tr><td>" + data.files[i].name + "</td><td>" + formatBytes(parseInt(data.files[i].size)) + "<td><td>" + data.files[i].dateUploaded + "</td></tr>" 
+			}
+			document.getElementById("data").innerHTML = output
+		}
+
+		// Converting Bytes to kb, mb, gb, tb, pb, eb, zb, yb
+		function formatBytes(bytes, decimals = 0) {
+			if (bytes === 0) return '0 Bytes';
+
+			const k = 1024;
+			const dm = decimals < 0 ? 0 : decimals;
+			const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+
+			const i = Math.floor(Math.log(bytes) / Math.log(k));
+
+			return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+		}
+		
+		// Getting cookie value by name
+		function getCookie(name) {
+			var found = document.cookie.split(';').filter(c => c.trim().split("=")[0] === name);
+			return found.length > 0 ? found[0].split("=")[1] : null;
+		}
+
+	</script>
 </body>
 </html>

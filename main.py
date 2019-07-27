@@ -101,6 +101,7 @@ def token(token):
     # token check
     if DatabaseHelper().validateToken(token):
         data = json.loads(DatabaseHelper().fetchAllFiles(token))
+        return data
     else:
         return ""
 
